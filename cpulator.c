@@ -275,7 +275,7 @@ static void wait_1ms_tick(void) {
 }
 
 static void update_clock(uint32_t elapsed_ms) {
-    uint32_t speed = (MMIO32(SW_BASE) & 0x1U) ? 20U : 1U;  /* SW0 fast mode */
+    uint32_t speed = (MMIO32(SW_BASE) & 0x1U) ? 15U : 1U;  /* SW0 fast mode (15x) */
     g_millis += elapsed_ms * speed;
     while (g_millis >= 1000U) {
         g_millis -= 1000U;
@@ -393,9 +393,9 @@ static med_slot_t slot_from_second(uint32_t second_of_day, uint16_t escalate_s, 
 static void configure_schedule(void) {
     uint32_t now_s = hal_read_second_of_day();
 
-    /* Demo-friendly schedule: alarms at +1 min and +2 min */
-    med_slot_t first = slot_from_second(add_minutes(now_s, 1U), 20U, 70U);
-    med_slot_t second = slot_from_second(add_minutes(now_s, 2U), 20U, 70U);
+    /* More realistic demo schedule with larger response windows. */
+    med_slot_t first = slot_from_second(add_minutes(now_s, 2U), 180U, 600U);
+    med_slot_t second = slot_from_second(add_minutes(now_s, 5U), 180U, 600U);
 
     (void)med_scheduler_set_slot(0U, first);
     (void)med_scheduler_set_slot(1U, second);

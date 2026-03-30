@@ -69,7 +69,7 @@ static void wait_1ms_tick(void) {
 }
 
 static void update_clock(uint32_t elapsed_ms) {
-    uint32_t speed = (MMIO32(SW_BASE) & 0x1U) ? 20U : 1U;
+    uint32_t speed = (MMIO32(SW_BASE) & 0x1U) ? 15U : 1U;
     g_millis += elapsed_ms * speed;
     while (g_millis >= 1000U) {
         g_millis -= 1000U;
@@ -93,7 +93,7 @@ void hal_init(void) {
     MMIO32(HEX3_HEX0_BASE) = 0U;
     MMIO32(HEX5_HEX4_BASE) = 0U;
     display_time_hhmm(g_second_of_day);
-    printf("DE10 HAL initialized. SW0=1 enables 20x time speed.\n");
+    printf("DE10 HAL initialized. SW0=1 enables 15x time speed.\n");
 }
 
 uint32_t hal_read_second_of_day(void) {

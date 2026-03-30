@@ -31,7 +31,7 @@ Hardware behavior:
 - `LEDR1` = buzzer output state indicator (useful before external buzzer wiring).
 - `HEX3..HEX0` display software clock as `HHMM`.
 - `HEX5..HEX4` show alert/event status codes.
-- `SW0` enables 20x software-clock speed for fast demonstrations.
+- `SW0` enables 15x software-clock speed for fast demonstrations.
 
 ### In Intel FPGA Monitor Program
 

@@ -22,8 +22,8 @@ static med_slot_t slot_from_second(uint32_t second_of_day, uint16_t escalate_s, 
 
 static void configure_schedule(void) {
     uint32_t now_s = hal_read_second_of_day();
-    med_slot_t first = slot_from_second(add_minutes(now_s, 1U), 20U, 70U);
-    med_slot_t second = slot_from_second(add_minutes(now_s, 2U), 20U, 70U);
+    med_slot_t first = slot_from_second(add_minutes(now_s, 2U), 180U, 600U);
+    med_slot_t second = slot_from_second(add_minutes(now_s, 5U), 180U, 600U);
 
     if (!med_scheduler_set_slot(0U, first) || !med_scheduler_set_slot(1U, second)) {
         printf("Schedule configuration failed\n");
