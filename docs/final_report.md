@@ -202,6 +202,7 @@ All source code is provided in:
 - `src/med_scheduler.h`
 - `src/hal.h`
 - `src/hal_sim.c`
+- `src/hal_de10.c`
 - `Makefile`
 
 Code comments and function boundaries mark iteration milestones and extension points for real hardware ports.

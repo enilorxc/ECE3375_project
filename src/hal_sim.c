@@ -1,10 +1,11 @@
 #include "hal.h"
 
 #include <stdio.h>
-#include <time.h>
 
 static uint32_t g_second_of_day = 8U * 3600U + 59U * 60U + 45U;
-static bool g_ack_latched = false;
+static uint32_t g_millis = 0U;
+static bool g_ack_latched_1 = false;
+static bool g_ack_latched_2 = false;
 static med_output_t g_last_output;
 static bool g_output_initialized = false;
 
@@ -20,17 +21,18 @@ void hal_init(void) {
 }
 
 uint32_t hal_read_second_of_day(void) {
-    if (g_second_of_day >= 24U * 3600U - 1U) {
-        g_second_of_day = 0U;
-    } else {
-        g_second_of_day++;
-    }
     return g_second_of_day;
 }
 
 bool hal_read_ack_button(void) {
-    if (g_second_of_day == (9U * 3600U + 1U * 60U + 10U) && !g_ack_latched) {
-        g_ack_latched = true;
+    uint32_t t1 = 9U * 3600U + 1U * 60U + 5U;
+    uint32_t t2 = 9U * 3600U + 2U * 60U + 10U;
+    if (g_second_of_day >= t1 && !g_ack_latched_1) {
+        g_ack_latched_1 = true;
+        return true;
+    }
+    if (g_second_of_day >= t2 && !g_ack_latched_2) {
+        g_ack_latched_2 = true;
         return true;
     }
     return false;
@@ -85,8 +87,13 @@ void hal_log_event(med_event_t event) {
 }
 
 void hal_delay_ms(uint32_t delay_ms) {
-    struct timespec req;
-    req.tv_sec = (time_t)(delay_ms / 1000U);
-    req.tv_nsec = (long)((delay_ms % 1000U) * 1000000U);
-    nanosleep(&req, NULL);
+    g_millis += delay_ms;
+    while (g_millis >= 1000U) {
+        g_millis -= 1000U;
+        if (g_second_of_day >= 24U * 3600U - 1U) {
+            g_second_of_day = 0U;
+        } else {
+            g_second_of_day++;
+        }
+    }
 }
