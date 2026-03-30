@@ -1,6 +1,6 @@
 # ECE3375 Project - Smart Medicine Dispenser Reminder
 
-This repository now contains a complete final-deliverable package for the ECE3375 design project:
+This repository contains a complete final-deliverable package for the ECE3375 design project:
 
 - Final report: `docs/final_report.md`
 - Source code prototype: `src/`
